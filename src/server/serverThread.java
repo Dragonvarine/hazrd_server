@@ -11,41 +11,48 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 
+public class serverThread implements Runnable
+{
 
-public class serverThread implements Runnable{
+    //Socket server input
     ServerSocket serverSocket;
     Socket socket;
     ObjectInputStream objectInputStream;
+
+    //Stored object for input
     static ArrayList<String> messages;
-    
-    serverThread() {
+
+    serverThread()
+    {
         socket = new Socket();
         messages = new ArrayList<>();
-        messages.add("Lol");
     }
-    
+
     @Override
-    public void run() 
+    public void run()
     {
-        try {
+        try
+        {
             serverSocket = new ServerSocket(44334);
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (IOException e)
+        {
         }
 
-        while (true) {
-            try {
-                while (true) {
+        while (true)
+        {
+            try
+            {
+                while (true)
+                {
                     socket = serverSocket.accept();
-                    System.out.println(messages.size());
                     objectInputStream = new ObjectInputStream(socket.getInputStream());
                     messages.add((String) objectInputStream.readObject());
                     System.out.println(messages.size());
                 }
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (ClassNotFoundException e) {
-                e.printStackTrace();
+            } catch (IOException e)
+            {
+            } catch (ClassNotFoundException e)
+            {
             }
         }
     }
